@@ -11,3 +11,6 @@
 
 ## System Architecture
 ![SystemArchitecture](https://github.com/user-attachments/assets/7c4c4893-d12a-412c-8002-d769aa54ae99)
+
+## Workflow Diagram
+![WorkflowDiagram](https://github.com/user-attachments/assets/b3682736-6543-496f-a7c2-7216af31fc0f)
