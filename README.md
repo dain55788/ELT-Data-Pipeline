@@ -4,8 +4,8 @@
 ##  What is covered in this project?
 + <b>Data Orchestration</b>: Apache Airflow
 + <b>Data Warehousing</b>: PostgreSQL
-+ <b>Data Governance and Data Quality</b>: Great Expectations
-+ <b>Data Transformaton (Staging Area) and Data Modeling (Star Schema)</b>: DBT (Data Build Tool) 🌟
++ <b>Data Governance and Data Quality (Staging Area)</b>: Great Expectations
++ <b>Data Transformaton and Data Modeling (Star Schema)</b>: DBT (Data Build Tool) 🌟
 + <b>Data Visualization</b>: PowerBI 📊
 + <b>ELT Data Processing Terminology Implemention</b>
 

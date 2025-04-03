@@ -1,0 +1,12 @@
+dbt_openaq:
+  outputs:
+    dev:
+      dbname: OpenAQ_DWH
+      host: localhost
+      pass: '123456'
+      port: 5432
+      schema: STAGING
+      threads: 1
+      type: postgres
+      user: postgres
+  target: dev
