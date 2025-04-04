@@ -73,14 +73,14 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
     AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
     AIRFLOW__CODE_EDITOR__ENABLED: 'true'
-    AIRFLOW__CODE_EDITOR__MOUNT: 'name=dags,path=/opt/airflow/dags'
-    AIRFLOW__CODE_EDITOR__MOUNT1: 'name=plugins,path=/opt/airflow/plugins'
+    # AIRFLOW__CODE_EDITOR__MOUNT: 'name=dags,path=/opt/airflow/dags'
+    # AIRFLOW__CODE_EDITOR__MOUNT1: 'name=plugins,path=/opt/airflow/plugins'
     # AIRFLOW__CODE_EDITOR__MOUNT2: 'name=tmp,path=/tmp'
     AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE: False
   volumes:
-    - ${AIRFLOW_PROJ_DIR:-.}/airflow/dags:/opt/airflow/dags
-    - ${AIRFLOW_PROJ_DIR:-.}/airflow/logs:/opt/airflow/logs
-    - ${AIRFLOW_PROJ_DIR:-.}/airflow/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     &airflow-common-depends-on
@@ -259,7 +259,7 @@ services:
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "0:0"
     volumes:
-      - ${AIRFLOW_PROJ_DIR:-.}:/sources
+      - ${AIRFLOW_PROJ_DIR}:/sources
 
 
   # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
