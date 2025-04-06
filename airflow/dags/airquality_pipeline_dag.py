@@ -5,7 +5,11 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from dotenv import load_dotenv
-from utils.airquality_collector import fetch_api_openaq
+from utils.airquality_collector import fetch_air_quality_locations, fetch_air_quality_sensors, transform_json_format
+
+# FILE PATH
+location_file_path = 'ELT-Data-Pipeline/data/location_air_quality.json'
+sensor_file_path = 'ELT-Data-Pipeline/data/sensor_air_quality.json'
 
 # Load environment variables
 load_dotenv()
@@ -33,9 +37,19 @@ with DAG(
         task_id="start_pipeline"
     )
 
-    fetch_data = PythonOperator(
+    fetch_locations_data = PythonOperator(
         task_id="fetch_openaq_data",
-        python_callable=fetch_api_openaq(OPENAQ_API_KEY),
+        python_callable=fetch_air_quality_locations(OPENAQ_API_KEY, location_file_path),
+    )
+
+    fetch_sensors_data = PythonOperator(
+        task_id="fetch_openaq_data",
+        python_callable=fetch_air_quality_sensors(OPENAQ_API_KEY, location_file_path, sensor_file_path),
+    )
+
+    sensor_file_transformation = PythonOperator(
+        task_id="fetch_openaq_data",
+        python_callable=transform_json_format(sensor_file_path),
     )
 
     end_pipeline = EmptyOperator(
@@ -43,5 +57,5 @@ with DAG(
     )
 
 
-start_pipeline >> fetch_data >> end_pipeline
-
+# Data Dependencies
+start_pipeline >> fetch_locations_data >> fetch_sensors_data >> sensor_file_transformation >> end_pipeline

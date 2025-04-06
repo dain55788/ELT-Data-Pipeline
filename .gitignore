@@ -180,3 +180,5 @@ Note.txt
 /airflow/logs
 
 **/logs/
+
+/data/**
