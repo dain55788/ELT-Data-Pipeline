@@ -5,7 +5,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from dotenv import load_dotenv
-# from airflow_batch_processing.plugins.airquality_collector import fetch_api_openaq
+from utils.airquality_collector import fetch_api_openaq
 
 # Load environment variables
 load_dotenv()
@@ -19,16 +19,16 @@ default_args = {
     "email": "admin@localhost.com",
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
-    'catchup_by_default': False  # Prevent backfilling
+    'catchup_by_default': False
 }
 
 # Task dependencies
 with DAG(
         "airquality_pipeline",
-        start_date=datetime(2025, 3, 5),
+        start_date=datetime(2025, 4, 6),
         schedule="0 6 * * *",  # 6AM daily
-        default_args=default_args) as dag:
-
+        default_args=default_args,
+        catchup=False) as dag:  # for preventing backfilling
     start_pipeline = EmptyOperator(
         task_id="start_pipeline"
     )
@@ -43,5 +43,5 @@ with DAG(
     )
 
 
-start_pipeline >> end_pipeline
+start_pipeline >> fetch_data >> end_pipeline
 
