@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 from utils.airquality_collector import fetch_air_quality_locations, fetch_air_quality_sensors, transform_json_format
 
 # FILE PATH
-location_file_path = 'ELT-Data-Pipeline/data/location_air_quality.json'
-sensor_file_path = 'ELT-Data-Pipeline/data/sensor_air_quality.json'
+location_file_path = os.getenv("LOCATION_FILE_PATH")
+sensor_file_path = os.getenv("SENSOR_FILE_PATH")
 
 # Load environment variables
 load_dotenv()
@@ -29,8 +29,8 @@ default_args = {
 # Task dependencies
 with DAG(
         "airquality_pipeline",
-        start_date=datetime(2025, 4, 6),
-        schedule="0 6 * * *",  # 6AM daily
+        start_date=datetime(2025, 4, 7),
+        schedule="1 * * * *",  # run at the first minute of every hour
         default_args=default_args,
         catchup=False) as dag:  # for preventing backfilling
     start_pipeline = EmptyOperator(
