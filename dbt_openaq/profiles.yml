@@ -5,7 +5,7 @@ dbt_openaq:
       host: localhost
       pass: '123456'
       port: 5432
-      schema: STAGING
+      schema: staging
       threads: 1
       type: postgres
       user: postgres
