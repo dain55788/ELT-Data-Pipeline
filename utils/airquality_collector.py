@@ -6,10 +6,13 @@ import json
 # Load environment variables
 load_dotenv()
 location_id = os.getenv("LOCATION_ID")
+OPENAQ_API_KEY = os.getenv("OPENAQ_API_KEY")
+location_file_path = os.getenv("LOCATION_FILE_PATH")
+sensor_file_path = os.getenv("SENSOR_FILE_PATH")
 
 
 # FETCH AIR QUALITY DATA BASED ON LOCATION
-def fetch_air_quality_locations(OPENAQ_API_KEY, location_file_path):
+def fetch_air_quality_locations():
     data = None
     url_checkpoint = f"https://api.openaq.org/v3/locations/{location_id}"
     headers = {"X-API-Key": OPENAQ_API_KEY}
@@ -21,7 +24,7 @@ def fetch_air_quality_locations(OPENAQ_API_KEY, location_file_path):
 
 
 # FETCH MEASUREMENTS DATA BASED ON SENSORS ACCORDING TO LOCATION
-def fetch_air_quality_sensors(OPENAQ_API_KEY, location_file_path, sensor_file_path):
+def fetch_air_quality_sensors():
     with open(location_file_path, 'r') as f:
         data = json.load(f)
 
@@ -30,17 +33,17 @@ def fetch_air_quality_sensors(OPENAQ_API_KEY, location_file_path, sensor_file_pa
     sensor_ids = [sensor['id'] for sensor in sensors]
 
     for sensor in sensor_ids:
-        url_checkpoint = f"https://api.openaq.org/v3/sensors/{sensor}"
+        openaq_url_checkpoint = f"https://api.openaq.org/v3/sensors/{sensor}"
         headers = {"X-API-Key": OPENAQ_API_KEY}
-        response = requests.get(url_checkpoint, headers=headers)
-        data = response.json()
+        response = requests.get(openaq_url_checkpoint, headers=headers)
+        openaq_data = response.json()
 
         with open(sensor_file_path, 'a', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+            json.dump(openaq_data, f, ensure_ascii=False, indent=4)
 
 
 # TRANSFORM JSON FORMAT OF SENSOR FILE
-def transform_json_format(sensor_file_path):
+def transform_json_format():
     combined_results = []
 
     with open(sensor_file_path, 'r', encoding='utf-8') as file:

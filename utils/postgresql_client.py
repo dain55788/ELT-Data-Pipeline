@@ -9,6 +9,13 @@ class PostgresSQLClient:
         self.password = password
         self.host = host
         self.port = port
+        self.conn = psycopg2.connect(
+            database=self.database,
+            user=self.user,
+            password=self.password,
+            host=self.host,
+            port=self.port,
+        )
 
     def create_conn(self):
         # Establishing the connection
@@ -29,3 +36,15 @@ class PostgresSQLClient:
         conn.commit()
         # Closing the connection
         conn.close()
+
+    def cursor(self):
+        return self.conn.cursor()
+
+    def commit(self):
+        self.conn.commit()
+
+    def rollback(self):
+        self.conn.rollback()
+
+    def close(self):
+        self.conn.close()
