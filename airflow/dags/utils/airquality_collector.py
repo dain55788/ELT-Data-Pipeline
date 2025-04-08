@@ -44,21 +44,44 @@ def fetch_air_quality_sensors():
 
 # TRANSFORM JSON FORMAT OF SENSOR FILE
 def transform_json_format():
-    combined_results = []
+    combined_data = []
 
     with open(sensor_file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
-        content = content.replace('}{', '},{')
-        content = f'[{content}]'
+        json_segments = content.split('}{')
 
-        data_list = json.loads(content)
+        for i, segment in enumerate(json_segments):
+            if i > 0:
+                segment = '{' + segment
+            if i < len(json_segments) - 1:
+                segment = segment + '}'
 
-        for data in data_list:
-            if 'results' in data and isinstance(data['results'], list):
-                combined_results.extend(data['results'])
+            if i == 0 and segment.startswith('['):
+                segment = segment.rstrip(']')
+                if not segment.endswith(']'):
+                    segment += ']'
+                try:
+                    data_list = json.loads(segment)
+                    combined_data.extend(data_list)
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding initial segment: {e}")
+                    continue
+            else:
+                try:
+                    data = json.loads(segment)
+                    if 'results' in data and isinstance(data['results'], list):
+                        combined_data.extend(data['results'])
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding segment {i}: {e}")
+                    continue
 
-    if sensor_file_path:
+    unique_data = {item['id']: item for item in combined_data}.values()
+    combined_data = list(unique_data)
+
+    if combined_data:
         with open(sensor_file_path, 'w', encoding='utf-8') as file:
-            json.dump(combined_results, file, indent=4, ensure_ascii=False)
-        print(f"Fixed JSON array written to {sensor_file_path}")
+            json.dump(combined_data, file, indent=4, ensure_ascii=False)
+        print(f"Transformed JSON array written to {sensor_file_path}")
+    else:
+        print(f"No valid data to write to {sensor_file_path}")

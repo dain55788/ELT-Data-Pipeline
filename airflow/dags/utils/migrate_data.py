@@ -1,9 +1,14 @@
-import json
 from datetime import datetime
-from utils.postgresql_client import PostgresSQLClient
+import json
+
+from scripts.postgresql_client import PostgresSQLClient
+from psycopg2.extras import execute_values
+
 import os
 from dotenv import load_dotenv
-from psycopg2.extras import execute_values
+
+import sys
+sys.path.append('/opt/airflow/scripts')
 
 # LOAD ENVIRONMENT VARIABLES
 load_dotenv()

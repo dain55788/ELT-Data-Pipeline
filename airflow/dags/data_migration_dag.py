@@ -1,22 +1,27 @@
+from datetime import timedelta
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
-from dotenv import load_dotenv
-from airquality_pipeline_dag import default_args
-import os
-from datetime import datetime
+from airflow.utils.dates import days_ago
 
-# FILE PATH
-location_file_path = os.getenv("LOCATION_FILE_PATH")
-sensor_file_path = os.getenv("SENSOR_FILE_PATH")
+from utils.migrate_data import load_measurements_by_sensors
 
 # DAG DEFINITION
-default_args = default_args
+default_args = {
+    "owner": "dainynguyen",
+    "email_on_failure": False,
+    "email_on_retry": False,
+    "email": "admin@localhost.com",
+    "retries": 1,
+    "retry_delay": timedelta(seconds=10),
+    'catchup_by_default': False
+}
 
 # TASKS DEFINITION
 with DAG(
-        "airquality_pipeline",
-        start_date=datetime(2025, 4, 7),
+        "data_migration_pipeline",
+        start_date=days_ago(0),
         schedule="2 * * * *",  # run at the second minute of every hour
         default_args=default_args,
         catchup=False) as dag:  # for preventing backfilling
@@ -25,6 +30,14 @@ with DAG(
         task_id="start_pipeline"
     )
 
+    insert_measurement_sensors_data = PythonOperator(
+        task_id="measurement_data_insert",
+        python_callable=load_measurements_by_sensors
+    )
+
     end_pipeline = EmptyOperator(
         task_id="end_pipeline"
     )
+
+# TASK DEPENDENCIES
+start_pipeline >> insert_measurement_sensors_data >> end_pipeline

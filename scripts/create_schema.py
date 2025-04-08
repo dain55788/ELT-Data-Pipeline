@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 from postgresql_client import PostgresSQLClient
+
+# LOAD ENVIRONMENT VARIABLES
 load_dotenv()
 
 

@@ -77,11 +77,13 @@ x-airflow-common:
     # AIRFLOW__CODE_EDITOR__MOUNT1: 'name=plugins,path=/opt/airflow/plugins'
     # AIRFLOW__CODE_EDITOR__MOUNT2: 'name=tmp,path=/tmp'
     AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE: False
+    PYTHONPATH: "/opt/airflow/scripts:/opt/airflow/dags:/opt/airflow/plugins"
   volumes:
-    - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ./data:/opt/airflow/data
+    - ./scripts:/opt/airflow/scripts
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     &airflow-common-depends-on
