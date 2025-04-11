@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 import sys
 sys.path.append('/opt/airflow/scripts')
+sys.path.append('../../scripts')
 
 # LOAD ENVIRONMENT VARIABLES
 load_dotenv()
@@ -55,6 +56,7 @@ def load_sensors_by_locations():
         database=os.getenv("POSTGRES_DB"),
         user=os.getenv("POSTGRES_USER"),
         password=os.getenv("POSTGRES_PASSWORD"),
+        host=os.getenv("POSTGRES_HOST", "host.docker.internal")
     )
 
     # SQL INSERT STATEMENT
@@ -84,22 +86,22 @@ def load_measurements_by_sensors():
 
     for sensor in data:
         record = (
-            sensor['id'],  # sensor_id
-            sensor['name'],  # sensor_name
-            sensor['parameter']['id'],  # parameter_id
-            sensor['parameter']['name'],  # parameter_name
-            sensor['parameter']['units'],  # parameter_units
-            sensor['parameter']['displayName'],  # parameter_display_name
-            sensor['latest']['datetime']['utc'],  # measurement_datetime_utc (using latest measurement)
-            sensor['latest']['value'],  # measurement_value
-            sensor['latest']['coordinates']['latitude'],  # latitude
-            sensor['latest']['coordinates']['longitude'],  # longitude
-            sensor['summary']['min'],  # summary_min
-            sensor['summary']['max'],  # summary_max
-            sensor['summary']['avg'],  # summary_avg
-            sensor['summary']['sd'],  # summary_sd
-            sensor['coverage']['observedCount'],  # coverage_observed_count
-            datetime.utcnow()  # load_timestamp
+            sensor['id'],
+            sensor['name'],
+            sensor['parameter']['id'],
+            sensor['parameter']['name'],
+            sensor['parameter']['units'],
+            sensor['parameter']['displayName'],
+            sensor['latest']['datetime']['utc'],
+            sensor['latest']['value'],
+            sensor['latest']['coordinates']['latitude'],
+            sensor['latest']['coordinates']['longitude'],
+            sensor['summary']['min'],
+            sensor['summary']['max'],
+            sensor['summary']['avg'],
+            sensor['summary']['sd'],
+            sensor['coverage']['observedCount'],
+            datetime.utcnow()
         )
         records.append(record)
 
@@ -108,6 +110,7 @@ def load_measurements_by_sensors():
             database=os.getenv("POSTGRES_DB"),
             user=os.getenv("POSTGRES_USER"),
             password=os.getenv("POSTGRES_PASSWORD"),
+            host=os.getenv("POSTGRES_HOST", "host.docker.internal")
         )
 
         cur = conn.cursor()

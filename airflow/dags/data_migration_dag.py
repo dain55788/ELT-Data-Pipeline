@@ -21,10 +21,11 @@ default_args = {
 # TASKS DEFINITION
 with DAG(
         "data_migration_pipeline",
-        start_date=days_ago(0),
+        start_date=days_ago(2),
         schedule="2 * * * *",  # run at the second minute of every hour
         default_args=default_args,
-        catchup=False) as dag:  # for preventing backfilling
+        # catchup=False
+        ) as dag:  # for preventing backfilling
 
     start_pipeline = EmptyOperator(
         task_id="start_pipeline"

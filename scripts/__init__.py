@@ -1,0 +1,1 @@
+# Make scripts directory a proper Python package 

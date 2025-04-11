@@ -2,7 +2,7 @@ import psycopg2
 
 
 class PostgresSQLClient:
-    def __init__(self, database, user, password, host="127.0.0.1", port="5432"):
+    def __init__(self, database, user, password, host="host.docker.internal", port="5432"):
         self.database = database
         self.user = user
         self.password = password

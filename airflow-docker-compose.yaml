@@ -77,7 +77,7 @@ x-airflow-common:
     # AIRFLOW__CODE_EDITOR__MOUNT1: 'name=plugins,path=/opt/airflow/plugins'
     # AIRFLOW__CODE_EDITOR__MOUNT2: 'name=tmp,path=/tmp'
     AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE: False
-    PYTHONPATH: "/opt/airflow/scripts:/opt/airflow/dags:/opt/airflow/plugins"
+    PYTHONPATH: "/opt/airflow:/opt/airflow/scripts:/opt/airflow/dags:/opt/airflow/plugins"
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
