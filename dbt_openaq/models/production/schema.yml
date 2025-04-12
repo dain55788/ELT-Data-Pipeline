@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: staging
+    schema: staging
+    tables:
+      - name: stg_sensors_by_locations
+      - name: stg_measurement_by_sensors
+
+models:
+  - name: dim_location
+    description: Location dimension for air quality sensors
+    columns:
+      - name: location_key
+        description: Surrogate key for the location
+        tests:
+          - unique
+          - not_null
+
+  
