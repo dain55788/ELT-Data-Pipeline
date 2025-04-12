@@ -1,0 +1,135 @@
+{
+  "expectations": [
+    {
+      "id": "b78261dc-2022-4598-801b-b6a4914df12b",
+      "kwargs": {
+        "column": "sensor_name"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "27fcdd40-3717-4b49-8c57-a7c089d708b9",
+      "kwargs": {
+        "column": "parameter_id"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "f330fb1f-636d-4366-8da7-84f7d380ed0c",
+      "kwargs": {
+        "column": "parameter_name"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "8ff0efaf-8a69-48bc-a3b4-6e105b220d41",
+      "kwargs": {
+        "column": "parameter_units"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "55559010-9ea3-4245-8a4b-d0d0373b840f",
+      "kwargs": {
+        "column": "measurement_datetime_utc"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "536b20b7-04f2-4982-a76d-a04c1e0e2807",
+      "kwargs": {
+        "column": "summary_min"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "6bffa104-62f6-49e2-b786-8fd00c769f70",
+      "kwargs": {
+        "column": "summary_max"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "6093832a-b4fc-4676-a97e-39d218d8476d",
+      "kwargs": {
+        "column": "summary_avg"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "93f89fb9-aeb0-4fd4-bb26-04100db48d85",
+      "kwargs": {
+        "column": "sensor_id"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "0bec9cfe-016c-48f1-b3c1-2e83a9dfb962",
+      "kwargs": {
+        "column": "parameter_name",
+        "value_set": [
+          "pm1",
+          "pm10",
+          "pm25",
+          "temperature",
+          "relativehumidity"
+        ]
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "6bd8d1f9-cd4a-48f9-a0e9-1a57f91365cc",
+      "kwargs": {
+        "column": "measurement_value",
+        "type_": "FLOAT"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_of_type"
+    },
+    {
+      "id": "9e416024-640a-4819-ada6-62ba371ee8cf",
+      "kwargs": {
+        "column": "summary_avg",
+        "type_": "FLOAT"
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_of_type"
+    },
+    {
+      "id": "b50fc53c-123a-422a-bb87-0ee098b83337",
+      "kwargs": {
+        "column": "latitude",
+        "max_value": 11.0,
+        "min_value": 10.0
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "70cec0a9-38a6-436b-bab0-0c5c9ee4822e",
+      "kwargs": {
+        "column": "longitude",
+        "max_value": 106.7,
+        "min_value": 106.6
+      },
+      "meta": {},
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "50e2d136-0e62-4311-be50-e20118979a80",
+  "meta": {
+    "great_expectations_version": "1.3.14"
+  },
+  "name": "validate_openaq_measurement",
+  "notes": null
+}

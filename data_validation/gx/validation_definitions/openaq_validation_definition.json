@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "2eb93e69-673a-452a-be74-963ccfe3c8f5",
+      "name": "openaq_measurement_data"
+    },
+    "batch_definition": {
+      "id": "53cb65c3-5e8a-47a3-bf6f-f006d6b72ee1",
+      "name": "FULL_TABLE"
+    },
+    "datasource": {
+      "id": "a5748ff5-4a5c-4795-b507-a214cc5a7fcc",
+      "name": "dainy-openaq-quality"
+    }
+  },
+  "id": "201f3e9c-e94f-4b63-9516-61449a6c7299",
+  "name": "openaq_validation_definition",
+  "suite": {
+    "id": "50e2d136-0e62-4311-be50-e20118979a80",
+    "name": "validate_openaq_measurement"
+  }
+}

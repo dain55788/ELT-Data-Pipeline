@@ -1,6 +1,89 @@
-# Great Expectations Data Validation
+# OpenAQ Data Validation
 
-This directory contains scripts for data validation using Great Expectations.
+This directory contains scripts for validating OpenAQ data using Great Expectations.
+
+## Data Validation Workflow
+
+The data validation process follows these steps:
+
+1. Connect to the PostgreSQL database (OpenAQ_DWH)
+2. Define data quality expectations for the stg_measurement_by_sensors table
+3. Create a validation checkpoint to run all expectations
+4. Execute the validation process
+5. If validation passes, save results to the database
+6. Generate data quality documentation
+
+## Scripts
+
+### openaq_data_validation.py
+
+Main script for running data validation. This script:
+
+- Connects to PostgreSQL database
+- Defines expectations for the OpenAQ measurement data
+- Creates a validation checkpoint
+- Runs the validation
+- Saves results to the data_quality.validation_results table
+
+To run:
+
+```bash
+python openaq_data_validation.py
+```
+
+### check_validation_results.py
+
+Script to check and display validation results stored in the database.
+
+To run:
+
+```bash
+python check_validation_results.py
+```
+
+This will display:
+- Recent validation runs
+- Success rates
+- Detailed information about failures
+
+## Expectations
+
+The following data quality expectations are validated:
+
+| Expectation | Description |
+|-------------|-------------|
+| ExpectColumnValuesToNotBeNull | Ensures critical columns have values |
+| ExpectColumnValuesToBeUnique | Ensures sensor_id values are unique |
+| ExpectColumnValuesToBeInSet | Validates parameter names against allowed values |
+| ExpectColumnValuesToBeOfType | Validates data types (e.g., measurement values are FLOAT) |
+| ExpectColumnValuesToBeBetween | Validates geographic coordinates are in expected ranges |
+
+## Database Schema
+
+Validation results are stored in:
+
+```
+data_quality.validation_results
+```
+
+Schema:
+- id: Serial primary key
+- validation_time: Timestamp when validation was run
+- table_name: Name of validated table
+- success: Boolean indicating overall validation success
+- expectation_count: Total number of expectations checked
+- successful_expectations: Number of passed expectations
+- failed_expectations: Number of failed expectations
+- validation_result_json: Full JSON result of validation
+
+## Integration with ELT Pipeline
+
+This validation is designed to be run as a quality gate before data processing:
+
+1. Extract and load data from source
+2. Run data validation
+3. Only proceed with transformation if validation passes
+4. Log validation results for monitoring and reporting
 
 ## Issue with Python 3.11
 
