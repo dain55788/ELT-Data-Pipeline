@@ -1,5 +1,5 @@
 {#
-    this sql creates a dim_date table (from 2025 to 2026)  in the production schema
+    this sql creates a dim_date table (from 2024 to future)  in the production schema
 #}
 
 {{ config(materialized = 'table') }}
@@ -8,7 +8,7 @@ WITH date_spine AS (
     {{ dbt_utils.date_spine(
         datepart="day",
         start_date="cast('2024-01-01' as date)",
-        end_date="cast(dateadd(year, 1, current_date) as date)"
+        end_date="cast((current_date + interval '1 year') as date)"
     ) }}
 ),
 

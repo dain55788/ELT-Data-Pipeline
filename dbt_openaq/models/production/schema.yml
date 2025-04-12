@@ -3,18 +3,169 @@ version: 2
 sources:
   - name: staging
     schema: staging
+    description: Staging area containing raw data from the OpenAQ API
     tables:
       - name: stg_sensors_by_locations
+        description: Staging table containing information about sensor locations
+        columns:
+          - name: location_id
+            description: Unique identifier for the location
+          - name: sensor_id
+            description: Unique identifier for the sensor
+          - name: owner_id
+            description: ID of the entity that owns the sensor
+          - name: provider_id
+            description: ID of the entity that provides the data
+          - name: instrument_id
+            description: ID of the measurement instrument
+            
       - name: stg_measurement_by_sensors
+        description: Staging table containing air quality measurements from sensors
+        columns:
+          - name: sensor_id
+            description: Unique identifier for the sensor
+          - name: parameter_id
+            description: ID of the air quality parameter being measured
+          - name: measurement_datetime_utc
+            description: UTC timestamp when the measurement was taken
+          - name: measurement_value
+            description: The measured value of the parameter
 
 models:
   - name: dim_location
-    description: Location dimension for air quality sensors
+    description: Dimension table for sensor locations
     columns:
       - name: location_key
-        description: Surrogate key for the location
+        tests:
+          - unique
+          - not_null
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+      - name: country_code
+        tests:
+          - not_null
+      - name: latitude
+        tests:
+          - not_null
+      - name: longitude
+        tests:
+          - not_null
+
+  - name: dim_parameter
+    columns:
+      - name: parameter_key
+        tests:
+          - unique
+          - not_null
+      - name: parameter_id
+        tests:
+          - not_null
+          - unique
+      - name: parameter_name
+        tests:
+          - not_null
+      - name: parameter_units
+        tests:
+          - not_null
+
+  - name: dim_sensor
+    columns:
+      - name: sensor_key
+        tests:
+          - unique
+          - not_null
+      - name: sensor_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_owner
+    columns:
+      - name: owner_key
+        tests:
+          - unique
+          - not_null
+      - name: owner_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_provider
+    columns:
+      - name: provider_key
+        tests:
+          - unique
+          - not_null
+      - name: provider_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_instrument
+    columns:
+      - name: instrument_key
+        tests:
+          - unique
+          - not_null
+      - name: instrument_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_date
+    columns:
+      - name: date_key
+        tests:
+          - unique
+          - not_null
+      - name: date_actual
         tests:
           - unique
           - not_null
 
-  
+  - name: dim_time
+    columns:
+      - name: time_key
+        tests:
+          - unique
+          - not_null
+      - name: hour
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_air_quality_measurement
+    columns:
+      - name: measurement_key
+        tests:
+          - unique
+          - not_null
+      - name: sensor_key
+        tests:
+          - not_null
+      - name: parameter_key
+        tests:
+          - not_null
+      - name: location_key
+        tests:
+          - not_null
+      - name: owner_key
+        tests:
+          - not_null
+      - name: provider_key
+        tests:
+          - not_null
+      - name: instrument_key
+        tests:
+          - not_null
+      - name: date_key
+        tests:
+          - not_null
+      - name: time_key
+        tests:
+          - not_null
+      - name: measurement_value
+        tests:
+          - not_null
