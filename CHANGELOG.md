@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](https://semver.org/) and follows t
 
 ---
 
+## [1.3.0] - 2025-04-21
+### Added
+- Implemented data lake architecture with Trino, MinIO, and Hive Metastore
+- Added Trino as SQL query engine and DBeaver for data lake querying
+- Updated `README.md` documentation and images for the project
+---
+
 ## [1.2.0] - 2025-04-15
 ### Added
 - Added `CHANGELOG.md` to track project history
