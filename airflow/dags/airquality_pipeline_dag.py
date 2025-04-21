@@ -21,7 +21,7 @@ default_args = {
 # TASK DEFINITION
 with DAG(
         "airquality_pipeline",
-        start_date=days_ago(2),
+        start_date=days_ago(0),
         schedule="1 * * * *",  # run at the first minute of every hour
         default_args=default_args,
         # catchup=False

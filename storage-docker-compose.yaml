@@ -1,0 +1,72 @@
+version: "3.8"
+services:
+  trino:
+    ports:
+      - "8084:8080"
+    container_name: datalake-trino
+    image: "trinodb/trino:410"
+    hostname: trino
+    volumes:
+      - ./trino/etc:/usr/lib/trino/etc:ro
+      - ./trino/catalog:/etc/trino/catalog
+    depends_on:
+      - hive-metastore
+    networks:
+      - trino-network
+
+  # We use MariaDB to store Hive metadata about
+  # how the datafile are mapped to schemas and tables
+  mariadb:
+    container_name: datalake-metastore-db
+    hostname: metastore_db
+    image: mariadb:10.5.8
+    ports:
+      - "3306:3306" # Access via Thrift protocol
+    environment:
+      MYSQL_ROOT_PASSWORD: hive
+      MYSQL_USER: hive
+      MYSQL_PASSWORD: hive
+      MYSQL_DATABASE: metastore
+    networks:
+      - trino-network
+
+  # Expose service to get metadata, which is a repository of metadata about the tables,
+  # such as database names, table names, schema and data location of each table
+  hive-metastore:
+    container_name: datalake-hive-metastore
+    hostname: hive-metastore
+    image: 'bitsondatadev/hive-metastore:latest'
+    ports:
+      - '9083:9083' # Metastore Thrift
+    volumes:
+      - ./conf/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml:ro
+    environment:
+      METASTORE_DB_HOSTNAME: mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - trino-network
+
+  # Files stored in MinIO object storage
+  minio:
+    image: minio/minio
+    container_name: datalake-minio
+    hostname: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_storage:/data
+    environment:
+      MINIO_ACCESS_KEY: minio_access_key
+      MINIO_SECRET_KEY: minio_secret_key
+    command: server --console-address ":9001" /data
+    networks:
+      - trino-network
+
+volumes:
+  minio_storage:
+
+networks:
+  trino-network:
+    driver: bridge

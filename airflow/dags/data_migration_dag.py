@@ -21,7 +21,7 @@ default_args = {
 # TASKS DEFINITION
 with DAG(
         "data_migration_pipeline",
-        start_date=days_ago(2),
+        start_date=days_ago(0),
         schedule="2 * * * *",  # run at the second minute of every hour
         default_args=default_args,
         # catchup=False
