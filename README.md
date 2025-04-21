@@ -3,6 +3,9 @@
 ---
 ## 📕 What is covered in this project?
 + <b>Data Orchestration</b>: Apache Airflow
++ <b>Data Processing</b>: Apache Spark
++ <b>On-Premise Data Lake</b>: MinIO (Object Storage), Hive Metastore (Metadata Layer)
++ <b>Query Engine</b>: Trino, DBeaver
 + <b>Data Warehousing</b>: PostgreSQL
 + <b>Data Governance and Data Quality (Staging Area)</b>: Great Expectations
 + <b>Data Transformaton and Data Modeling (Star Schema)</b>: DBT (Data Build Tool) 🌟
@@ -15,12 +18,12 @@ Specifically, we will explore the location measurement of air quality of differe
 Take a look on how to create your API Key: https://docs.openaq.org/using-the-api/quick-start 
 
 ## 🛠️ System Architecture
-![SystemArchitecture](https://github.com/user-attachments/assets/7c4c4893-d12a-412c-8002-d769aa54ae99)
+![SystemArchitecture](https://github.com/user-attachments/assets/eb814a85-7c58-4a65-b4ef-e54224ad5dc9)
 
 ## 📁 Repository Structure
 ```shell
 ELT-Data-Pipeline/
-├── .env      /* Environment variables */
+├── .env                      /* Environment variables */
 ├── .git/
 ├── .gitignore
 ├── .idea/
@@ -28,7 +31,8 @@ ELT-Data-Pipeline/
 ├── LICENSE
 ├── Note.txt
 ├── README.md
-├── airflow/      /* Airflow configuration and DAGs */
+├── CHANGELOG.md
+├── airflow/                  /* Airflow configuration and DAGs */
 │   ├── README.md
 │   ├── dags/
 │   │   ├── __pycache__/
@@ -42,10 +46,10 @@ ELT-Data-Pipeline/
 │   ├── logs/
 │   └── plugins/
 ├── airflow-docker-compose.yaml
-├── data/      /* Sample or test data */
+├── data/                     /* Sample or test data */
 │   ├── location_air_quality.json
 │   └── sensor_air_quality.json
-├── data_validation/      /* Data quality check with Great Expectations */
+├── data_validation/          /* Data quality check with Great Expectations */
 │   ├── .gitkeep
 │   ├── README.md
 │   ├── gx/
@@ -57,7 +61,7 @@ ELT-Data-Pipeline/
 │   │   ├── uncommitted/
 │   │   └── validation_definitions/
 │   └── openaq_data_quality.ipynb
-├── dbt_openaq/      /* dbt project for transformations and modeling */
+├── dbt_openaq/               /* dbt project for transformations and modeling */
 │   ├── .gitignore
 │   ├── .user.yml
 │   ├── README.md
@@ -85,16 +89,26 @@ ELT-Data-Pipeline/
 │   ├── snapshots/
 │   ├── target/
 │   └── tests/
+├── docker-compose.yaml
 ├── images/
-├── logs/
-├── requirements.txt       /* Python dependencies */
-├── scripts/          /* Postgres utility scripts */
+├── requirements.txt          /* Python dependencies */
+├── scripts/                  /* Utility scripts */
 │   ├── __init__.py
 │   ├── __pycache__/
 │   ├── create_schema.py
 │   ├── create_table.py
 │   └── postgresql_client.py
-├── test.py
+├── storage-docker-compose.yaml  /* Data lake components (Trino, MinIO, Hive) */
+├── trino-minio/              /* Trino and MinIO configuration */
+│   ├── conf/
+│   │   └── metastore-site.xml
+│   └── etc/
+│       ├── catalog/
+│       │   └── minio.properties
+│       ├── config.properties
+│       ├── jvm.config
+│       ├── log.properties
+│       └── node.properties
 └── venv/
 
 ```
