@@ -7,8 +7,8 @@ services:
     image: "trinodb/trino:410"
     hostname: trino
     volumes:
-      - ./trino/etc:/usr/lib/trino/etc:ro
-      - ./trino/catalog:/etc/trino/catalog
+      - ./trino-minio/etc:/usr/lib/trino/etc:ro
+      - ./trino-minio/catalog:/etc/trino/catalog
     depends_on:
       - hive-metastore
     networks:
