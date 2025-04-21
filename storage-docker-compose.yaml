@@ -1,14 +1,13 @@
 version: "3.8"
 services:
   trino:
-    ports:
-      - "8084:8080"
     container_name: datalake-trino
-    image: "trinodb/trino:410"
     hostname: trino
+    image: "trinodb/trino:351"
+    ports:
+      - "8085:8080"
     volumes:
       - ./trino-minio/etc:/usr/lib/trino/etc:ro
-      - ./trino-minio/catalog:/etc/trino/catalog
     depends_on:
       - hive-metastore
     networks:
@@ -21,7 +20,7 @@ services:
     hostname: metastore_db
     image: mariadb:10.5.8
     ports:
-      - "3306:3306" # Access via Thrift protocol
+      - "3307:3306" # Access via Thrift protocol
     environment:
       MYSQL_ROOT_PASSWORD: hive
       MYSQL_USER: hive
@@ -39,7 +38,7 @@ services:
     ports:
       - '9083:9083' # Metastore Thrift
     volumes:
-      - ./conf/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml:ro
+      - ./trino-minio/conf/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml:ro
     environment:
       METASTORE_DB_HOSTNAME: mariadb
     depends_on:
