@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from airflow import DAG
+from airflow.provider.standard.operators import python
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from airflow.utils.dates import days_ago
@@ -24,8 +24,8 @@ with DAG(
         start_date=days_ago(0),
         schedule="1 * * * *",  # run at the first minute of every hour
         default_args=default_args,
-        # catchup=False
-        ) as dag:  # for preventing backfilling
+        catchup=False  # for preventing backfilling
+        ) as dag:
     start_pipeline = EmptyOperator(
         task_id="start_pipeline"
     )

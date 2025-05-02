@@ -182,3 +182,5 @@ Note.txt
 **/logs/
 
 /data/**
+
+airflow/dags/test_minio.py
